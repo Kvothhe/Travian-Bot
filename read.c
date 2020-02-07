@@ -137,18 +137,13 @@ int recursoInfo(FILE* ficheiro)
    	return j;
 }
 
-void lerDorf1()
+void lerDorf1(int* stuff, int* idCampos)
 {
 	char string[5];
 	char caracter;
 	int teste, linha,copia;
 	int i;
 	FILE *ficheiro;
-
-	int madeira, madProd, barro, barroProd, ferro, ferroProd, cereal, cerProd, cerLivre, armazem, celeiro;
-	int id1, id2, id3, id4, id5, id6, id7, id8, id9, id10, id11, id12, id13, id14, id15, id16, id17, id18;
-	int idCampos[17];
-
 
 	linha = copia = i = 0;
 	teste = 1;
@@ -181,47 +176,47 @@ void lerDorf1()
 
    	printf("----Produção:----\n\n");
    	skipChar(40,ficheiro);
-   	madProd = recursoInfo(ficheiro);
-   	printf("Produção de Madeira: %d\n", madProd);
+   	stuff[1] = recursoInfo(ficheiro);
+   	printf("Produção de Madeira: %d\n", stuff[1]);
    	skipChar(6,ficheiro);
-   	barroProd = recursoInfo(ficheiro);
-   	printf("Produção de Barro: %d\n", barroProd);
+   	stuff[3] = recursoInfo(ficheiro);
+   	printf("Produção de Barro: %d\n", stuff[3]);
    	skipChar(6,ficheiro);
-   	ferroProd = recursoInfo(ficheiro);
-   	printf("Produção de Ferro: %d\n", ferroProd);
+   	stuff[5] = recursoInfo(ficheiro);
+   	printf("Produção de Ferro: %d\n", stuff[5]);
    	skipChar(6,ficheiro);
-   	cerProd = recursoInfo(ficheiro);
-   	printf("Produção de Cereal: %d\n", cerProd);
+   	stuff[7] = recursoInfo(ficheiro);
+   	printf("Produção de Cereal: %d\n", stuff[7]);
    	skipChar(6,ficheiro);
-   	cerLivre = recursoInfo(ficheiro);
-   	printf("Cereal livre: %d\n", cerLivre);
+   	stuff[8] = recursoInfo(ficheiro);
+   	printf("Cereal livre: %d\n", stuff[8]);
 
    	printf("\n---Armazenado:----\n\n");
 
    	skipChar(26,ficheiro);
-   	madeira = recursoInfo(ficheiro);
-   	printf("Madeira: %d\n", madeira);
+   	stuff[0] = recursoInfo(ficheiro);
+   	printf("Madeira: %d\n", stuff[0]);
    	skipChar(6,ficheiro);
-   	barro = recursoInfo(ficheiro);
-   	printf("Barro: %d\n", barro);
+   	stuff[2] = recursoInfo(ficheiro);
+   	printf("Barro: %d\n", stuff[2]);
    	skipChar(6,ficheiro);
-   	ferro = recursoInfo(ficheiro);
-   	printf("Ferro: %d\n", ferro);
+   	stuff[4] = recursoInfo(ficheiro);
+   	printf("Ferro: %d\n", stuff[4]);
    	skipChar(6,ficheiro);
-   	cereal = recursoInfo(ficheiro);
-   	printf("Cereal: %d\n", cereal);
+   	stuff[6] = recursoInfo(ficheiro);
+   	printf("Cereal: %d\n", stuff[6]);
 
    	printf("\n---Capacidade:----\n\n");
 
    	lookFor("l1",ficheiro);
    	skipChar(1,ficheiro);
-   	armazem = recursoInfo(ficheiro);
-   	printf("Armazem: %d\n", armazem);
+   	stuff[9] = recursoInfo(ficheiro);
+   	printf("Armazem: %d\n", stuff[9]);
 
    	lookFor("l4",ficheiro);
    	skipChar(1,ficheiro);
-   	celeiro = recursoInfo(ficheiro);
-   	printf("Celeiro: %d\n", celeiro);
+   	stuff[10] = recursoInfo(ficheiro);
+   	printf("Celeiro: %d\n", stuff[10]);
    	fclose(ficheiro);
 
    	printf("\n---Campos:----\n\n");
@@ -271,7 +266,7 @@ void lerDorf1()
 
 
 	printf("\n---------------------------------\n\n");
-
+	fclose(ficheiro);
 }
 
 void lerDorf2()

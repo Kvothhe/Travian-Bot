@@ -25,15 +25,15 @@ void automaticLogin()
 
 	char user[20];
 	char password[50];
-	int menu = 0;
+	int menulogin = 0;
 
 	FILE* fileLogin;
 	char* login = "wget -q --save-cookies cookies.txt --keep-session-cookies --post-data 'name=";
 	//fopen("login.txt","r+");
 	printf("1- Usar login existente\n2- Novo login\n");
-	scanf("%d", &menu);
+	scanf("%d", &menulogin);
 
-	if(menu == 1)
+	if(menulogin == 1)
 	{
 		if((fileLogin = fopen("login.txt", "r")) == NULL)
 		{
@@ -43,6 +43,7 @@ void automaticLogin()
 
 		fscanf(fileLogin,"%s\n", user);
 		fscanf(fileLogin,"%s\n", password);
+		fclose(fileLogin);
 
 	}
 	else
