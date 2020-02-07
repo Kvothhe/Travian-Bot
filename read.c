@@ -3,6 +3,24 @@
 
 #define MAX 15
 
+char* addchar(char s1[], char c)
+{
+	int i,i2;
+
+	for (i = 0; s1[i]!='\0'; i++);
+	i++;
+
+	char* string = malloc(i);
+
+	for(i = 0; s1[i] != '\0'; i++)
+		string[i] = s1[i];
+	string[i] = c;
+
+	i++;
+	string[i]='\0';
+	return string;
+}
+
 int eVarr(char* string)
 {
 	char* s1 = "var r\0";
@@ -11,7 +29,7 @@ int eVarr(char* string)
 	//printf("%s\n", s1);
 
 	while(i < 5)
-	{	
+	{
 		//printf("%c %c\n", s1[i], string[i]);
 		if(s1[i] != string[i])
 			vf = 0;
@@ -28,9 +46,9 @@ int eString(char* string, FILE* file, char c)
 	//printf("%s\n", s1);
 
 	while(string[i] != '\0' && vf != 0)
-	{	
+	{
 		//printf("%c %c\n", s1[i], string[i]);
-		
+
 		if(string[i] != c)
 			vf = 0;
 		++i;
@@ -53,7 +71,7 @@ void lookFor(char* string, FILE* file)
 		if(string[i] == c)
 			teste = 1 - eString(string,file,c);
 		fscanf(file, "%c", &c);
-	}	
+	}
 }
 
 void skipChar(int i, FILE* file)
@@ -69,7 +87,7 @@ int pot(int x, int n)
 {
 	int i, p=1;
 
-	for(i=0; i<n;i++) 
+	for(i=0; i<n;i++)
 		p=p*x;
 
 	return p;
@@ -110,7 +128,8 @@ int recursoInfo(FILE* ficheiro)
    		array[j] = caracter - 48;
    		++j;
    		fscanf(ficheiro,"%c", &caracter);
-   	}	
+   	}
+
    	array[j] = 'z';
 
    	j = arrayToInt(array,tamanho(array));
@@ -125,23 +144,24 @@ void lerDorf1()
 	int teste, linha,copia;
 	int i;
 	FILE *ficheiro;
-	 
+
 	int madeira, madProd, barro, barroProd, ferro, ferroProd, cereal, cerProd, cerLivre, armazem, celeiro;
 	int id1, id2, id3, id4, id5, id6, id7, id8, id9, id10, id11, id12, id13, id14, id15, id16, id17, id18;
+	int idCampos[17];
 
 
 	linha = copia = i = 0;
 	teste = 1;
 
-	system("wget -q --load-cookies=cookies.txt -O dorf1.html https://ts2.lusobrasileiro.travian.com/dorf1.php");
+	system("wget -q --load-cookies=cookies.txt -O dorf1.html https://ts1.lusobrasileiro.travian.com/dorf1.php");
 	ficheiro = fopen("dorf1.html","r+");
 
    	while (teste)
-   	{	
+   	{
 
    		fscanf(ficheiro,"%c", &caracter);
    		//printf("%c", caracter);
-   		
+
    		if (caracter == '\n')
    			linha++;
 
@@ -152,7 +172,7 @@ void lerDorf1()
    			string[i] = caracter, ++i;
 
    		if (i == 5)
-   		{	
+   		{
    			if(eVarr(string))
    				copia = teste = 0, i = 0;
    			else copia = 0; i = 0;
@@ -206,101 +226,49 @@ void lerDorf1()
 
    	printf("\n---Campos:----\n\n");
 
-   	ficheiro = fopen("dorf1.html","r+");
-   	lookFor("build.php?id=1",ficheiro);
-   	lookFor("e;ve",ficheiro);
-   	id1 = recursoInfo(ficheiro);
-   	
-   	lookFor("area",ficheiro);
-   	lookFor("e;ve",ficheiro);
-   	id2 = recursoInfo(ficheiro);
-   	
-   	lookFor("area",ficheiro);
-   	lookFor("e;ve",ficheiro);
-   	id3 = recursoInfo(ficheiro);
-   	
-   	lookFor("area",ficheiro);
-   	lookFor("e;ve",ficheiro);
-   	id4 = recursoInfo(ficheiro);
-   	
-   	lookFor("area",ficheiro);
-   	lookFor("e;ve",ficheiro);
-   	id5 = recursoInfo(ficheiro);
-   	
-   	lookFor("area",ficheiro);
-   	lookFor("e;ve",ficheiro);
-   	id6 = recursoInfo(ficheiro);
-   	
-   	lookFor("area",ficheiro);
-   	lookFor("e;ve",ficheiro);
-   	id7 = recursoInfo(ficheiro);
-   
-   	lookFor("area",ficheiro);
-   	lookFor("e;ve",ficheiro);
-   	id8 = recursoInfo(ficheiro);
-   	
-   	lookFor("area",ficheiro);
-   	lookFor("e;ve",ficheiro);
-   	id9 = recursoInfo(ficheiro);
-   	
-   	lookFor("area",ficheiro);
-   	lookFor("e;ve",ficheiro);
-   	id10 = recursoInfo(ficheiro);
-   	
-   	lookFor("area",ficheiro);
-   	lookFor("e;ve",ficheiro);
-   	id11 = recursoInfo(ficheiro);
-   	
-   	lookFor("area",ficheiro);
-   	lookFor("e;ve",ficheiro);
-   	id12 = recursoInfo(ficheiro);
+	ficheiro = fopen("dorf1.html","r+");
+	for(int j = 1; j < 19; j++)
+	{
+		char* c = "build.php?id=";
+		char c2;
+		if (j >= 10)
+		{
+			 c2 = j - 10 + '0';
+			c = addchar(c, '1');
+			c = addchar(c, c2);
+		}
+		else
+		{
+			c2 = j + '0';
+			c = addchar(c, c2);
+		}
+		lookFor(c,ficheiro);
+		lookFor("e;ve",ficheiro);
+		idCampos[j] = recursoInfo(ficheiro);
+	}
 
-   	lookFor("area",ficheiro);
-   	lookFor("e;ve",ficheiro);
-   	id13 = recursoInfo(ficheiro);
-   	
-   	lookFor("area",ficheiro);
-   	lookFor("e;ve",ficheiro);
-   	id14 = recursoInfo(ficheiro);
-   	
-   	lookFor("area",ficheiro);
-   	lookFor("e;ve",ficheiro);
-   	id15 = recursoInfo(ficheiro);
-   	
-   	lookFor("area",ficheiro);
-   	lookFor("e;ve",ficheiro);
-   	id16 = recursoInfo(ficheiro);
-   	
-   	lookFor("area",ficheiro);
-   	lookFor("e;ve",ficheiro);
-   	id17 = recursoInfo(ficheiro);
-   	
-   	lookFor("area",ficheiro);
-   	lookFor("e;ve",ficheiro);
-   	id18 = recursoInfo(ficheiro);
-   	
-   	printf("Bosque 1 nível: %d\n", id1);
-	printf("Bosque 2 nível: %d\n", id3);
-	printf("Bosque 3 nível: %d\n", id14);
-	printf("Bosque 4 nível: %d\n\n", id17);
-	
-	printf("Poço de Barro 1 nível: %d\n", id5);
-	printf("Poço de Barro 2 nível: %d\n", id6);
-	printf("Poço de Barro 3 nível: %d\n", id16);
-	printf("Poço de Barro 4 nível: %d\n\n", id18);
+   	printf("Bosque 1 nível: %d\n", idCampos[1]);
+	printf("Bosque 2 nível: %d\n", idCampos[3]);
+	printf("Bosque 3 nível: %d\n", idCampos[14]);
+	printf("Bosque 4 nível: %d\n\n", idCampos[17]);
 
-	printf("Mina de Ferro 1 nível: %d\n", id4);	
-	printf("Mina de Ferro 2 nível: %d\n", id7);
-	printf("Mina de Ferro 3 nível: %d\n", id10);
-	printf("Mina de Ferro 4 nível: %d\n\n", id11);
+	printf("Poço de Barro 1 nível: %d\n", idCampos[5]);
+	printf("Poço de Barro 2 nível: %d\n", idCampos[6]);
+	printf("Poço de Barro 3 nível: %d\n", idCampos[16]);
+	printf("Poço de Barro 4 nível: %d\n\n", idCampos[18]);
 
-	printf("Campo de Cereais 1 nível: %d\n", id2);
-	printf("Campo de Cereais 2 nível: %d\n", id8);
-	printf("Campo de Cereais 3 nível: %d\n", id9);
-	printf("Campo de Cereais 4 nível: %d\n", id12);
-	printf("Campo de Cereais 5 nível: %d\n", id13);
-	printf("Campo de Cereais 6 nível: %d\n", id15);
-	
+	printf("Mina de Ferro 1 nível: %d\n", idCampos[4]);
+	printf("Mina de Ferro 2 nível: %d\n", idCampos[7]);
+	printf("Mina de Ferro 3 nível: %d\n", idCampos[10]);
+	printf("Mina de Ferro 4 nível: %d\n\n", idCampos[11]);
+
+	printf("Campo de Cereais 1 nível: %d\n", idCampos[2]);
+	printf("Campo de Cereais 2 nível: %d\n", idCampos[8]);
+	printf("Campo de Cereais 3 nível: %d\n", idCampos[9]);
+	printf("Campo de Cereais 4 nível: %d\n", idCampos[12]);
+	printf("Campo de Cereais 5 nível: %d\n", idCampos[13]);
+	printf("Campo de Cereais 6 nível: %d\n", idCampos[15]);
+
 
 	printf("\n---------------------------------\n\n");
 

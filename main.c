@@ -3,15 +3,8 @@
 void main()
 {
 	int menu = 0;
-	char user[20];
-	char password[50];
 
-	printf("Username:\n");
-	scanf("%s", user);
-	printf("Password:\n");
-	scanf("%s", password);
-
-	automaticLogin(user,password);
+	automaticLogin();
 
 	while(menu != 5)
 	{
