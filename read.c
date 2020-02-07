@@ -52,7 +52,7 @@ int eString(char* string, FILE* file, char c)
 		if(string[i] != c)
 			vf = 0;
 		++i;
-		fscanf(file, "%c", &c);
+		c = getc(file);
 	}
 
 
@@ -64,13 +64,14 @@ void lookFor(char* string, FILE* file)
 	char c;
 	int i = 0;
 	int teste = 1;
+	int end = 1;
 
 	fscanf(file, "%c", &c);
-	while(teste && file)
+	while(teste && c != EOF)
 	{
 		if(string[i] == c)
 			teste = 1 - eString(string,file,c);
-		fscanf(file, "%c", &c);
+		c = getc(file);
 	}
 }
 
