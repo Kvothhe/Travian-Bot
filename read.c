@@ -66,7 +66,7 @@ void lookFor(char* string, FILE* file)
 	int teste = 1;
 
 	fscanf(file, "%c", &c);
-	while(teste)
+	while(teste && file)
 	{
 		if(string[i] == c)
 			teste = 1 - eString(string,file,c);
