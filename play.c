@@ -129,6 +129,7 @@ void nivelar(int* stuff, int* idCampos)
         printf("Evoluir id: %d\n", x);
 
         emCons = emConstr();
+        printf("Está em construção: %d\n", emCons);
 
         if(!emCons)
             evoluiCampo(x, stuff, idCampos);
