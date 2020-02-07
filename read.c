@@ -137,7 +137,7 @@ int recursoInfo(FILE* ficheiro)
    	return j;
 }
 
-void lerDorf1(int* stuff, int* idCampos)
+void lerDorf1(int* stuff, int* idCampos, int print)
 {
 	char string[5];
 	char caracter;
@@ -174,52 +174,45 @@ void lerDorf1(int* stuff, int* idCampos)
    		}
    	}
 
-   	printf("----Produção:----\n\n");
+
    	skipChar(40,ficheiro);
    	stuff[1] = recursoInfo(ficheiro);
-   	printf("Produção de Madeira: %d\n", stuff[1]);
+
    	skipChar(6,ficheiro);
    	stuff[3] = recursoInfo(ficheiro);
-   	printf("Produção de Barro: %d\n", stuff[3]);
+
    	skipChar(6,ficheiro);
    	stuff[5] = recursoInfo(ficheiro);
-   	printf("Produção de Ferro: %d\n", stuff[5]);
+
    	skipChar(6,ficheiro);
    	stuff[7] = recursoInfo(ficheiro);
-   	printf("Produção de Cereal: %d\n", stuff[7]);
+
    	skipChar(6,ficheiro);
    	stuff[8] = recursoInfo(ficheiro);
-   	printf("Cereal livre: %d\n", stuff[8]);
 
-   	printf("\n---Armazenado:----\n\n");
-
-   	skipChar(26,ficheiro);
+	skipChar(26,ficheiro);
    	stuff[0] = recursoInfo(ficheiro);
-   	printf("Madeira: %d\n", stuff[0]);
    	skipChar(6,ficheiro);
    	stuff[2] = recursoInfo(ficheiro);
-   	printf("Barro: %d\n", stuff[2]);
+
    	skipChar(6,ficheiro);
    	stuff[4] = recursoInfo(ficheiro);
-   	printf("Ferro: %d\n", stuff[4]);
+
    	skipChar(6,ficheiro);
    	stuff[6] = recursoInfo(ficheiro);
-   	printf("Cereal: %d\n", stuff[6]);
 
-   	printf("\n---Capacidade:----\n\n");
 
    	lookFor("l1",ficheiro);
    	skipChar(1,ficheiro);
    	stuff[9] = recursoInfo(ficheiro);
-   	printf("Armazem: %d\n", stuff[9]);
+
 
    	lookFor("l4",ficheiro);
    	skipChar(1,ficheiro);
    	stuff[10] = recursoInfo(ficheiro);
-   	printf("Celeiro: %d\n", stuff[10]);
+
    	fclose(ficheiro);
 
-   	printf("\n---Campos:----\n\n");
 
 	ficheiro = fopen("dorf1.html","r+");
 	for(int j = 1; j < 19; j++)
@@ -242,30 +235,53 @@ void lerDorf1(int* stuff, int* idCampos)
 		idCampos[j] = recursoInfo(ficheiro);
 	}
 
-   	printf("Bosque 1 nível: %d\n", idCampos[1]);
-	printf("Bosque 2 nível: %d\n", idCampos[3]);
-	printf("Bosque 3 nível: %d\n", idCampos[14]);
-	printf("Bosque 4 nível: %d\n\n", idCampos[17]);
+	if(print)
+	{
+		printf("----Produção:----\n\n");
+		printf("Produção de Madeira: %d\n", stuff[1]);
+		printf("Produção de Barro: %d\n", stuff[3]);
+		printf("Produção de Ferro: %d\n", stuff[5]);
+		printf("Produção de Cereal: %d\n", stuff[7]);
+		printf("Cereal livre: %d\n", stuff[8]);
 
-	printf("Poço de Barro 1 nível: %d\n", idCampos[5]);
-	printf("Poço de Barro 2 nível: %d\n", idCampos[6]);
-	printf("Poço de Barro 3 nível: %d\n", idCampos[16]);
-	printf("Poço de Barro 4 nível: %d\n\n", idCampos[18]);
+		printf("\n---Armazenado:----\n\n");
+		printf("Madeira: %d\n", stuff[0]);
+		printf("Barro: %d\n", stuff[2]);
+		printf("Ferro: %d\n", stuff[4]);
+		printf("Cereal: %d\n", stuff[6]);
 
-	printf("Mina de Ferro 1 nível: %d\n", idCampos[4]);
-	printf("Mina de Ferro 2 nível: %d\n", idCampos[7]);
-	printf("Mina de Ferro 3 nível: %d\n", idCampos[10]);
-	printf("Mina de Ferro 4 nível: %d\n\n", idCampos[11]);
-
-	printf("Campo de Cereais 1 nível: %d\n", idCampos[2]);
-	printf("Campo de Cereais 2 nível: %d\n", idCampos[8]);
-	printf("Campo de Cereais 3 nível: %d\n", idCampos[9]);
-	printf("Campo de Cereais 4 nível: %d\n", idCampos[12]);
-	printf("Campo de Cereais 5 nível: %d\n", idCampos[13]);
-	printf("Campo de Cereais 6 nível: %d\n", idCampos[15]);
+		printf("\n---Capacidade:----\n\n");
+		printf("Armazem: %d\n", stuff[9]);
+		printf("Celeiro: %d\n", stuff[10]);
+		printf("Bosque 1 nível: %d\n", idCampos[1]);
 
 
-	printf("\n---------------------------------\n\n");
+		printf("\n---Campos:----\n\n");
+
+		printf("Bosque 2 nível: %d\n", idCampos[3]);
+		printf("Bosque 3 nível: %d\n", idCampos[14]);
+		printf("Bosque 4 nível: %d\n\n", idCampos[17]);
+
+		printf("Poço de Barro 1 nível: %d\n", idCampos[5]);
+		printf("Poço de Barro 2 nível: %d\n", idCampos[6]);
+		printf("Poço de Barro 3 nível: %d\n", idCampos[16]);
+		printf("Poço de Barro 4 nível: %d\n\n", idCampos[18]);
+
+		printf("Mina de Ferro 1 nível: %d\n", idCampos[4]);
+		printf("Mina de Ferro 2 nível: %d\n", idCampos[7]);
+		printf("Mina de Ferro 3 nível: %d\n", idCampos[10]);
+		printf("Mina de Ferro 4 nível: %d\n\n", idCampos[11]);
+
+		printf("Campo de Cereais 1 nível: %d\n", idCampos[2]);
+		printf("Campo de Cereais 2 nível: %d\n", idCampos[8]);
+		printf("Campo de Cereais 3 nível: %d\n", idCampos[9]);
+		printf("Campo de Cereais 4 nível: %d\n", idCampos[12]);
+		printf("Campo de Cereais 5 nível: %d\n", idCampos[13]);
+		printf("Campo de Cereais 6 nível: %d\n", idCampos[15]);
+
+
+		printf("\n---------------------------------\n\n");
+	}
 	fclose(ficheiro);
 }
 

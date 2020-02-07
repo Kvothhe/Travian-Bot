@@ -19,7 +19,21 @@ int tenhoRec(FILE* file, int* stuff)
     return r;
 }
 
-void evoluiCampo(int x, int* stuff)
+int minCampo(int* idCampos, int max)
+{
+    int i = 1;
+    int indice = -1;
+
+    for(; i < 18; i++)
+    {
+        if(idCampos[i] < max)
+            max = idCampos[i], indice = i;
+    }
+
+    return indice;
+}
+
+void evoluiCampo(int x, int* stuff, int* idCampos)
 {
     int j;
     char* c = "build.php?id=";
@@ -71,6 +85,58 @@ void evoluiCampo(int x, int* stuff)
     else
     {
         fclose(filedorf);
-        printf("Sem Recursos!\n");
+        printf("Sem Recursos para id=%d!\n", x);
     }
+}
+
+int emConstr()
+{
+    FILE* ficheiro;
+    char c;
+    int emCons = 0;
+
+    ficheiro = fopen("dorf1.html","r+");
+    lookFor("Em construçã", ficheiro);
+    fscanf(ficheiro, "%c", &c);
+    if(c == '<')
+    {
+        fscanf(ficheiro, "%c", &c);
+        if(c == 47)
+            emCons = 1;
+    }
+    fclose(ficheiro);
+
+    return emCons;
+}
+
+void nivelar(int* stuff, int* idCampos)
+{
+    int valor, emCons;
+    char c;
+
+    printf("Valor a evoluir:");
+    scanf("%d", &valor);
+    printf("Valor: %d\n", valor);
+
+    int start = 0;
+    int x = 0;
+
+
+    while(start < 600 && x != -1)
+    {
+        lerDorf1(stuff, idCampos, 0);
+        x = minCampo(idCampos, valor);
+        printf("Evoluir id: %d\n", x);
+
+        emCons = emConstr();
+
+        if(!emCons)
+            evoluiCampo(x, stuff, idCampos);
+
+        printf("Start: %d\n", start);
+
+        sleep(50);
+        start++;
+    }
+
 }
