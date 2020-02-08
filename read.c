@@ -10,7 +10,7 @@ char* addchar(char s1[], char c)
 	for (i = 0; s1[i]!='\0'; i++);
 	i++;
 
-	char* string = malloc(i);
+	char* string = malloc(i+5);
 
 	for(i = 0; s1[i] != '\0'; i++)
 		string[i] = s1[i];
@@ -45,7 +45,7 @@ int eString(char* string, FILE* file, char c)
 	int vf = 1;
 	//printf("%s\n", s1);
 
-	while(string[i] != '\0' && vf != 0)
+	while(string[i] != '\0' && vf != 0 && c != EOF)
 	{
 		//printf("%c %c\n", s1[i], string[i]);
 
@@ -66,7 +66,7 @@ void lookFor(char* string, FILE* file)
 	int teste = 1;
 	int end = 1;
 
-	fscanf(file, "%c", &c);
+	c = getc(file);
 	while(teste && c != EOF)
 	{
 		if(string[i] == c)
@@ -80,7 +80,7 @@ void skipChar(int i, FILE* file)
 	char c;
 
 	while(i != 0)
-		fscanf(file,"%c", &c), --i;
+		c = getc(file), --i;
 
 }
 

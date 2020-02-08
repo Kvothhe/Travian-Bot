@@ -38,6 +38,11 @@ void evoluiCampo(int x, int* stuff, int* idCampos)
     int j;
     char* c = "build.php?id=";
     char c2;
+    char ch;
+
+    char* linha = malloc(50*sizeof(char));
+
+
     if (x >= 10)
     {
          c2 = x - 10 + '0';
@@ -55,29 +60,34 @@ void evoluiCampo(int x, int* stuff, int* idCampos)
 
     system(c);
 
-
     FILE* filedorf;
 
     filedorf = fopen("dorf.html","r+");
 
     if(tenhoRec(filedorf, stuff))
     {
+
         lookFor("on.href =", filedorf);
+        //printf("HERE\n");
 
-        char* linha = malloc(25);
 
+        //printf("HERE\n");
         fscanf(filedorf, "%c", &c2);
+        //printf("Char = %c\n", c2);
         for(j = 0; c2 != '\''; j++)
         {
             if(c2 == 38)
                 skipChar(4,filedorf);
 
-                linha[j] = c2;
+            linha[j] = c2;
             fscanf(filedorf, "%c", &c2);
+        //    printf("%d\n", j);
         }
-        linha[j] = '\"';
+        //printf("HERE\n");
+        linha[j] = 34;
+        linha[j+1] = 0;
         c = concatenar("wget -q --load-cookies=cookies.txt -O dorf.html \"https://ts1.lusobrasileiro.travian.com/", linha);
-
+        //printf("%s\n", c);
         system(c);
         system("rm dorf.html 2>/dev/null");
         fclose(filedorf);
@@ -124,17 +134,19 @@ void nivelar(int* stuff, int* idCampos)
 
     while(start < 600 && x != -1)
     {
-        lerDorf1(stuff, idCampos, 0);
-        x = minCampo(idCampos, valor);
-        printf("Evoluir id: %d\n", x);
+        lerDorf1(stuff, idCampos, 0)
 
         emCons = emConstr();
         printf("Está em construção: %d\n", emCons);
 
         if(!emCons)
+        {
+            x = minCampo(idCampos, valor);
+            printf("Evoluir id: %d\n", x);
             evoluiCampo(x, stuff, idCampos);
+        }
 
-        printf("Start: %d\n", start);
+        printf("Minuto: %d\n", start);
 
         sleep(50);
         start++;
