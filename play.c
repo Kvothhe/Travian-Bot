@@ -40,7 +40,7 @@ void evoluiCampo(int x, int* stuff, int* idCampos)
     char c2;
     char ch;
 
-    char* linha = malloc(50*sizeof(char));
+    char* linhaz = malloc(50*sizeof(char));
 
 
     if (x >= 10)
@@ -79,17 +79,18 @@ void evoluiCampo(int x, int* stuff, int* idCampos)
             if(c2 == 38)
                 skipChar(4,filedorf);
 
-            linha[j] = c2;
+            linhaz[j] = c2;
             fscanf(filedorf, "%c", &c2);
         //    printf("%d\n", j);
         }
         //printf("HERE\n");
-        linha[j] = 34;
-        linha[j+1] = 0;
-        c = concatenar("wget -q --load-cookies=cookies.txt -O dorf.html \"https://ts1.lusobrasileiro.travian.com/", linha);
+        linhaz[j] = 34;
+        linhaz[j+1] = 0;
+        c = concatenar("wget -q --load-cookies=cookies.txt -O dorf.html \"https://ts1.lusobrasileiro.travian.com/", linhaz);
         //printf("%s\n", c);
         system(c);
         system("rm dorf.html 2>/dev/null");
+        free(linhaz);
         fclose(filedorf);
     }
     else
@@ -112,7 +113,11 @@ int emConstr()
     {
         fscanf(ficheiro, "%c", &c);
         if(c == 47)
-            emCons = 1;
+        {
+            lookFor("timer", ficheiro);
+            lookFor("value", ficheiro);
+            emCons = recursoInfo(ficheiro);
+        }
     }
     fclose(ficheiro);
 
@@ -134,10 +139,10 @@ void nivelar(int* stuff, int* idCampos)
 
     while(start < 600 && x != -1)
     {
-        lerDorf1(stuff, idCampos, 0)
-
+        int random = rand() % 120;
+        lerDorf1(stuff, idCampos, 0);
         emCons = emConstr();
-        printf("Está em construção: %d\n", emCons);
+        printf("Está em construção nos próximos %d minutos\n", emCons/60);
 
         if(!emCons)
         {
@@ -146,9 +151,9 @@ void nivelar(int* stuff, int* idCampos)
             evoluiCampo(x, stuff, idCampos);
         }
 
-        printf("Minuto: %d\n", start);
+        printf("Minuto: %d\nRandom: %d\n", start, random);
 
-        sleep(50);
+        sleep(emCons + random);
         start++;
     }
 
