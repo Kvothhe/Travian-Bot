@@ -96,6 +96,7 @@ void evoluiCampo(int x, int* stuff, int* idCampos)
     else
     {
         fclose(filedorf);
+        free(linhaz);
         printf("Sem Recursos para id=%d!\n", x);
     }
 }
