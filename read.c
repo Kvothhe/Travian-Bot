@@ -5,7 +5,7 @@
 
 char* addchar(char s1[], char c)
 {
-	int i,i2;
+	int i;
 
 	for (i = 0; s1[i]!='\0'; i++);
 	i++;
@@ -64,7 +64,6 @@ void lookFor(char* string, FILE* file)
 	char c;
 	int i = 0;
 	int teste = 1;
-	int end = 1;
 
 	c = getc(file);
 	while(teste && c != EOF)
@@ -171,7 +170,7 @@ void lerDorf1(int* stuff, int* idCampos, int print)
    		{
    			if(eVarr(string))
    				copia = teste = 0, i = 0;
-   			else copia = 0; i = 0;
+   			else copia = 0, i = 0;
    		}
    	}
 
@@ -218,22 +217,24 @@ void lerDorf1(int* stuff, int* idCampos, int print)
 	ficheiro = fopen("dorf1.html","r+");
 	for(int j = 1; j < 19; j++)
 	{
-		char* c = "build.php?id=";
+		char* cam = malloc(200*(sizeof(char)));
+		cam = "build.php?id=";
 		char c2;
 		if (j >= 10)
 		{
-			 c2 = j - 10 + '0';
-			c = addchar(c, '1');
-			c = addchar(c, c2);
+			c2 = j - 10 + '0';
+			cam = addchar(cam, '1');
+			cam = addchar(cam, c2);
 		}
 		else
 		{
 			c2 = j + '0';
-			c = addchar(c, c2);
+			cam = addchar(cam, c2);
 		}
-		lookFor(c,ficheiro);
+		lookFor(cam,ficheiro);
 		lookFor("e;ve",ficheiro);
 		idCampos[j] = recursoInfo(ficheiro);
+		free(cam);
 	}
 
 	if(print)

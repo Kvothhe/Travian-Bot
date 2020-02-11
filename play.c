@@ -4,7 +4,6 @@ int tenhoRec(FILE* file, int* stuff)
 {
     int r = 0;
     int mad, bar, fer, cer;
-    char c;
 
     lookFor("class=\"value value",file);
     mad = recursoInfo(file);
@@ -33,32 +32,41 @@ int minCampo(int* idCampos, int max)
     return indice;
 }
 
-void evoluiCampo(int x, int* stuff, int* idCampos)
+void criarUrl(int x)
 {
-    int j;
-    char* c = "build.php?id=";
-    char c2;
-    char ch;
-
-    char* linhaz = malloc(50*sizeof(char));
-
+    char* c = malloc(200*sizeof(char));
+    c = "build.php?id=";
+    printf("%s\n", c);
 
     if (x >= 10)
     {
-         c2 = x - 10 + '0';
         c = addchar(c, '1');
-        c = addchar(c, c2);
+        c = addchar(c,x - 10 + '0');
+        printf("%s\n", c);
     }
     else
     {
-        c2 = x + '0';
-        c = addchar(c, c2);
+        c = addchar(c, x + '0');
     }
 
     c = addchar(c,'\"');
+    printf("%s\n", c);
     c = concatenar("wget -q --load-cookies=cookies.txt -O dorf.html \"https://ts1.lusobrasileiro.travian.com/",c);
 
+    c = addchar(c,0);
+    printf("%s\n", c);
     system(c);
+    free(c);
+}
+
+void evoluiCampo(int x, int* stuff, int* idCampos)
+{
+    int j;
+    char* c = malloc(200*sizeof(char));
+    char* sc = malloc(200*sizeof(char));
+    char c2;
+
+    criarUrl(x);
 
     FILE* filedorf;
 
@@ -79,24 +87,26 @@ void evoluiCampo(int x, int* stuff, int* idCampos)
             if(c2 == 38)
                 skipChar(4,filedorf);
 
-            linhaz[j] = c2;
+            c[j] = c2;
             fscanf(filedorf, "%c", &c2);
         //    printf("%d\n", j);
         }
         //printf("HERE\n");
-        linhaz[j] = 34;
-        linhaz[j+1] = 0;
-        c = concatenar("wget -q --load-cookies=cookies.txt -O dorf.html \"https://ts1.lusobrasileiro.travian.com/", linhaz);
-        //printf("%s\n", c);
-        system(c);
+        c[j] = 34;
+        c[j+1] = 0;
+        sc = concatenar("wget -q --load-cookies=cookies.txt -O dorf.html \"https://ts1.lusobrasileiro.travian.com/", c);
+
+        printf("%s\n", sc);
+        system(sc);
         system("rm dorf.html 2>/dev/null");
-        free(linhaz);
+        free(c);
+        free(sc);
         fclose(filedorf);
     }
     else
     {
         fclose(filedorf);
-        free(linhaz);
+        free(c);
         printf("Sem Recursos para id=%d!\n", x);
     }
 }
@@ -128,7 +138,7 @@ int emConstr()
 void nivelar(int* stuff, int* idCampos)
 {
     int valor, emCons;
-    char c;
+
 
     printf("Valor a evoluir:");
     scanf("%d", &valor);
@@ -142,6 +152,7 @@ void nivelar(int* stuff, int* idCampos)
     {
         int random = rand() % 120;
         lerDorf1(stuff, idCampos, 0);
+        printf("Leu a Dorf1\n");
         emCons = emConstr();
         printf("Está em construção nos próximos %d minutos\n", emCons/60);
 
@@ -152,9 +163,10 @@ void nivelar(int* stuff, int* idCampos)
             evoluiCampo(x, stuff, idCampos);
         }
 
-        printf("Minuto: %d\nRandom: %d\n", start, random);
+        printf("Iteração: %d\nRandom: %d\n", start, random);
 
         sleep(emCons + random);
+        printf("Vai adicionar iteração\n");
         start++;
     }
 

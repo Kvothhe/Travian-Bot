@@ -1,10 +1,20 @@
 #include "headers.h"
 
-void main()
+void debugg()
+{
+	char* s = malloc(50*sizeof(char));
+	s = concatenar("Ol","asdad asadsdaa");
+	s = concatenar("Osdfsl","asdasdaa");
+	s = concatenar("Owdasdqql","wda");
+	s = concatenar("Oadl","aasda");
+}
+
+int main()
 {
 	int menu = 0;
 	int stuff[10];
 	int idCampos[17];
+	char* s;
 
 	automaticLogin();
 
@@ -14,6 +24,8 @@ void main()
 			lerDorf1(stuff, idCampos, 1);
 		if(menu == 2)
 			nivelar(stuff, idCampos);
+		if(menu == 3)
+			debugg();
 
 		printf("\n\n ----------------------- ");
 
@@ -25,4 +37,6 @@ void main()
 		printf("\n\n Escolha uma opcao: ");
 		scanf("%d",&menu);
 	}
+
+	return 0;
 }

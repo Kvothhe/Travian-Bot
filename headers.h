@@ -20,3 +20,4 @@ int tenhoRec(FILE*, int*);
 int minCampo(int*, int);
 void nivelar(int*, int*);
 int emConstr();
+void criarUrl(int);
