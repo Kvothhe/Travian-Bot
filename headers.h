@@ -2,9 +2,12 @@
 #include <stdlib.h>
 #include <time.h>
 #include <unistd.h>
+#include <string.h>
 
-void automaticLogin();
-char* concatenar(char*, char*);
+void automaticLogin(int);
+int linTam(char*);
+int maxTime(int, int, int, int);
+void concat(char*, char*);
 char* addchar(char*, char);
 int eVarr(char* string);
 int eString(char*, FILE*, char);
@@ -21,3 +24,11 @@ int minCampo(int*, int);
 void nivelar(int*, int*);
 int emConstr();
 void criarUrl(int);
+int xyToSum(int, int);
+int nivelBuild(int);
+void EvolId (int*, int*);
+void proZ();
+void treinarTropas();
+void generateA1(int, int);
+void generateA2(int, int, char*, int);
+void sendAtak(int, int, int);

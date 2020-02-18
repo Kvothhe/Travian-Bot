@@ -1,5 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
+#include "headers.h"
 
 #define MAX 15
 
@@ -139,6 +138,8 @@ int recursoInfo(FILE* ficheiro)
 
 void lerDorf1(int* stuff, int* idCampos, int print)
 {
+	automaticLogin(0);
+
 	char string[5];
 	char caracter;
 	int teste, linha,copia;

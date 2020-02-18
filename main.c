@@ -1,40 +1,36 @@
 #include "headers.h"
 
-void debugg()
-{
-	char* s = malloc(50*sizeof(char));
-	s = concatenar("Ol","asdad asadsdaa");
-	s = concatenar("Osdfsl","asdasdaa");
-	s = concatenar("Owdasdqql","wda");
-	s = concatenar("Oadl","aasda");
-}
-
 int main()
 {
 	int menu = 0;
 	int stuff[10];
 	int idCampos[17];
 	char* s;
+	char sfd[10];
+	automaticLogin(1);
 
-	automaticLogin();
-
-	while(menu != 5)
+	while(menu != 8)
 	{
 		if(menu == 1)
 			lerDorf1(stuff, idCampos, 1);
 		if(menu == 2)
 			nivelar(stuff, idCampos);
 		if(menu == 3)
-			debugg();
+			EvolId(stuff, idCampos);
+		if(menu == 4)
+			sendAtak(63, 37, 0);
+		if(menu == 5)
+			treinarTropas();
 
 		printf("\n\n ----------------------- ");
 
-		printf("\n 1 - Ler Dados Dorf1");
-		printf("\n 2 - Subir Campos até um certo nivel");
-		printf("\n 3 - Opcao 3 ");
-		printf("\n 4 - Opcao 4 ");
-		printf("\n 5 - Logout ");
-		printf("\n\n Escolha uma opcao: ");
+		printf("\n1 - Ler Dados Dorf1");
+		printf("\n2 - Subir Campos até um certo nivel");
+		printf("\n3 - Subir até nivel");
+		printf("\n4 - Ataque");
+		printf("\n5 - Treinar Tropas");
+		printf("\n8 - Logout ");
+		printf("\nEscolha uma opcao: ");
 		scanf("%d",&menu);
 	}
 

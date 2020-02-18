@@ -1,37 +1,44 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "headers.h"
 
-char* concatenar(char s1[], char s2[])
+
+int linTam(char* s1)
 {
-	int i,i2;
+	int i;
+	for(i = 0; s1[i] != 0; i++);
 
-	for (i = 0; s1[i]!='\0'; i++);
-	for (i2 = 0; s2[i2]!='\0'; i2++);
-	i = i + i2;
-
-	char* string = malloc(i);
-
-	for(i = 0; s1[i] != '\0'; i++)
-		string[i] = s1[i];
-	for(i2 = 0; s2[i2] != '\0'; i2++, i++)
-		string[i] = s2[i2];
-
-	string[i]='\0';
-	return string;
+	return i;
 }
 
-void automaticLogin()
+
+void concat(char s1[], char s2[])
+{
+	int i,j;
+
+	i = linTam(s1);
+	for(j = 0; s2[j] != 0; j++)
+		s1[i+j] = s2[j];
+
+	s1[i+j] = 0;
+}
+
+void automaticLogin(int x)
 {
 
 	char user[20];
 	char password[50];
-	int menulogin = 0;
+	int menulogin = 1;
 
 	FILE* fileLogin;
-	char* login = "wget -q --save-cookies cookies.txt --keep-session-cookies --post-data 'name=";
+	char login[200] = "wget -q --save-cookies cookies.txt --keep-session-cookies --post-data 'name=";
+
 	//fopen("login.txt","r+");
-	printf("1- Usar login existente\n2- Novo login\n");
-	scanf("%d", &menulogin);
+	if(x)
+	{
+		printf("1- Usar login existente\n2- Novo login\n");
+		scanf("%d", &menulogin);
+	}
 
 	if(menulogin == 1)
 	{
@@ -63,9 +70,9 @@ void automaticLogin()
 		fclose(fileLogin);
 	}
 
-	login = concatenar(login, user	);
-	login = concatenar(login,"&password=");
-	login = concatenar(login, password);
-	login = concatenar(login, "' --delete-after https://ts1.lusobrasileiro.travian.com/login.php");
+	concat(login, user);
+	concat(login,"&password=");
+	concat(login, password);
+	concat(login, "' --delete-after https://ts1.lusobrasileiro.travian.com/login.php");
 	system(login);
 }
