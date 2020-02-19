@@ -14,13 +14,29 @@ int main()
 		if(menu == 1)
 			lerDorf1(stuff, idCampos, 1);
 		if(menu == 2)
-			nivelar(stuff, idCampos);
+			nivelar(stuff, idCampos, 0);
 		if(menu == 3)
-			EvolId(stuff, idCampos);
+			EvolId(stuff, idCampos, 0, 0, 0);
 		if(menu == 4)
-			sendAtak(63, 37, 0);
+			atakList();
 		if(menu == 5)
 			treinarTropas();
+		if(menu == 6)
+		{
+			nivelar(stuff,idCampos, 1);
+			EvolId(stuff, idCampos, 1, 26, 3);
+			EvolId(stuff, idCampos, 1, 20, 3);
+			EvolId(stuff, idCampos, 1, 21, 3);
+			nivelar(stuff,idCampos, 3);
+			EvolId(stuff, idCampos, 1, 20, 6);
+			EvolId(stuff, idCampos, 1, 21, 4);
+			EvolId(stuff, idCampos, 1, 26, 7);
+			nivelar(stuff,idCampos, 5);
+			EvolId(stuff, idCampos, 1, 20, 8);
+			EvolId(stuff, idCampos, 1, 21, 6);
+			nivelar(stuff,idCampos, 6);
+			EvolId(stuff, idCampos, 1, 19, 10);
+		}
 
 		printf("\n\n ----------------------- ");
 

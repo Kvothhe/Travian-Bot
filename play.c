@@ -169,14 +169,21 @@ int emConstr()
     return emCons;
 }
 
-void nivelar(int* stuff, int* idCampos)
+void nivelar(int* stuff, int* idCampos, int modo)
 {
     int valor, emCons;
 
-
-    printf("Valor a evoluir:");
-    scanf("%d", &valor);
-    printf("Valor: %d\n", valor);
+    if(modo == 0)
+    {   
+        printf("Valor a evoluir:");
+        scanf("%d", &valor);
+        printf("Valor: %d\n", valor);
+    }
+    else
+    {
+        valor = modo;
+    }
+    
 
     int start = 0;
     int x = 0;
@@ -239,15 +246,23 @@ int nivelBuild(int id)
     return r;
 }
 
-void EvolId (int* stuff, int* idCampos)
+void EvolId (int* stuff, int* idCampos, int modo, int bid, int bate)
 { 
     int id,ate, start = 0;
     int emCons, x = 0;
 
-    printf("Id a evoluir:");
-    scanf("%d", &id);
-    printf("Até nivel:");
-    scanf("%d", &ate);
+    if(modo == 0)
+    {
+        printf("Id a evoluir:");
+        scanf("%d", &id);
+        printf("Até nivel:");
+        scanf("%d", &ate);
+    }
+    else
+    {
+        id = bid;
+        ate = bate;
+    }
 
     while(start < 600 && x != ate)
     {
@@ -479,4 +494,20 @@ void sendAtak(int x, int y, int modo)
     generateA2(x, y, strZ, modo);
 
     system("wget -q --load-cookies=cookies.txt --post-file=a2.txt -O atak.html \"https://ts1.lusobrasileiro.travian.com/build.php?gid=16&tt=2\"");
+}
+
+void atakList()
+{
+    FILE *file;
+    file = fopen("atakL.txt","r");
+
+    int x, y, modo, i;
+
+    for(i = 0; i < 5; i++)
+    {
+        fscanf(file,"%d %d %d\n", &modo, &x, &y);
+        sendAtak(x,y,modo);
+    }
+
+    fclose(file);
 }
