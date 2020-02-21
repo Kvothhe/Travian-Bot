@@ -189,9 +189,9 @@ void nivelar(int* stuff, int* idCampos, int modo)
     int x = 0;
 
 
-    while(start < 600 && x != -1)
+    while(x != -1)
     {
-        int random = rand() % 120;
+        int random = rand() % 150;
         lerDorf1(stuff, idCampos, 0);
         printf("Leu a Dorf1\n");
         emCons = emConstr();
@@ -264,7 +264,7 @@ void EvolId (int* stuff, int* idCampos, int modo, int bid, int bate)
         ate = bate;
     }
 
-    while(start < 600 && x != ate)
+    while(x != ate)
     {
         int random = rand() % 120;
         lerDorf1(stuff, idCampos, 0);
@@ -496,11 +496,15 @@ void sendAtak(int x, int y, int modo)
     system("wget -q --load-cookies=cookies.txt --post-file=a2.txt -O atak.html \"https://ts1.lusobrasileiro.travian.com/build.php?gid=16&tt=2\"");
 }
 
-void atakList()
+void atakList(int lista)
 {
     FILE *file;
-    file = fopen("atakL.txt","r");
-
+    
+    if(lista = 1)
+        file = fopen("atakL.txt","r");
+    else
+        file = fopen("farmlist.txt","r");
+        
     int x, y, modo, i;
 
     for(i = 0; i < 5; i++)

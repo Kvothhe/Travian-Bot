@@ -18,7 +18,7 @@ int main()
 		if(menu == 3)
 			EvolId(stuff, idCampos, 0, 0, 0);
 		if(menu == 4)
-			atakList();
+			atakList(2);
 		if(menu == 5)
 			treinarTropas();
 		if(menu == 6)
@@ -37,6 +37,8 @@ int main()
 			nivelar(stuff,idCampos, 6);
 			EvolId(stuff, idCampos, 1, 19, 10);
 		}
+		if(menu == 7)
+			inactivePlayers();
 
 		printf("\n\n ----------------------- ");
 

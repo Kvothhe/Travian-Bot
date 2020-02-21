@@ -32,4 +32,6 @@ void treinarTropas();
 void generateA1(int, int);
 void generateA2(int, int, char*, int);
 void sendAtak(int, int, int);
-void atakList();
+void atakList(int);
+void inactivePlayers();
+void teste();

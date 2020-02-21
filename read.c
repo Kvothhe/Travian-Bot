@@ -128,10 +128,13 @@ int recursoInfo(FILE* ficheiro)
    		++j;
    		fscanf(ficheiro,"%c", &caracter);
    	}
+	   	
+	if(j != 0)
+   	{
+	   	array[j] = 'z';
 
-   	array[j] = 'z';
-
-   	j = arrayToInt(array,tamanho(array));
+   		j = arrayToInt(array,tamanho(array));
+	}
 
    	return j;
 }
