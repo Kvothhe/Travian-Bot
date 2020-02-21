@@ -103,8 +103,11 @@ void evoluiCampo(int x, int* stuff, int* idCampos)
 
     FILE* filedorf;
 
-
-    filedorf = fopen("dorf.html","r+");
+    if(x < 19)
+        filedorf = fopen("dorf.html","r+");
+    else
+        filedorf = fopen("build.html","r+");
+    
 
     cond = tenhoRec(filedorf, stuff);
     printf("cond %d\n", cond);
@@ -151,6 +154,7 @@ int emConstr()
     char c;
     int emCons = 0;
 
+    system("wget -q --load-cookies=cookies.txt -O dorf1.html https://ts2.lusobrasileiro.travian.com/dorf1.php");
     ficheiro = fopen("dorf1.html","r+");
     lookFor("Em construçã", ficheiro);
     fscanf(ficheiro, "%c", &c);
