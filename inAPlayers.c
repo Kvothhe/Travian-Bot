@@ -15,14 +15,3 @@ void inactivePlayers()
         printf("%s\n", cmd);
     }
 }
-
-void teste()
-{
-    FILE * file;
-    file = fopen("dorf.html","r");
-
-    lookFor("A tua prima de 4", file);
-
-    skipChar(4,file);
-    fclose(file);
-}
