@@ -23,7 +23,7 @@ int main()
 			treinarTropas();
 		if(menu == 6)
 		{
-			teste();
+			//teste();
 		}
 		if(menu == 7)
 			inactivePlayers();
