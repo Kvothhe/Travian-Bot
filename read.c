@@ -139,9 +139,75 @@ int recursoInfo(FILE* ficheiro)
    	return j;
 }
 
-void lerDorf1(int* stuff, int* idCampos, int print)
+int searchVillage()
 {
-	automaticLogin(0);
+	FILE * file;
+	int villages[30];
+	char c;
+	int i, j;
+	char village[10];
+
+	for(i = 0; i < 30; villages[i] = 0, i++);
+
+	system("wget -q --load-cookies=cookies.txt -O dorf3.html https://ts1.lusobrasileiro.travian.com/dorf3.php");
+	file = fopen("dorf3.html","r");
+
+	lookFor("Aldeias: &#x202d;&#x202",file);
+	j = recursoInfo(file);
+		
+	for(i = 0; i < j; i++)
+	{
+		lookFor("newdi",file);
+		villages[i] = recursoInfo(file);		
+	}	
+
+	fclose(file);
+
+	file = fopen("villages.txt","w");
+
+	for(i = 0; i < j; i++)
+	{
+		sprintf(village,"%d", villages[i]);
+		//printf("V: %s\n",village);
+		fprintf(file,"%s\n",village);
+	}
+	fclose(file);
+
+	return j;	
+}
+
+void changeVillage(int aldeia, FILE * logfile)
+{
+	int vill = 0;
+	int i = 0;
+	FILE * villages;
+	char ald[10];
+	char syst[150] = "wget -q --load-cookies=cookies.txt -O dorf1.html \"https://ts1.lusobrasileiro.travian.com/dorf1.php?newdid=";
+
+	vill = searchVillage();
+	
+	villages = fopen("villages.txt","r");
+	
+	while(i != aldeia && vill != 0)
+	{
+		fscanf(villages,"%s\n", ald);
+		vill--, i++;
+	}
+
+	concat(syst, ald);
+	concat(syst,"\"");
+
+//	printf("%s\n", syst);
+
+	system(syst);
+
+	fprintf(logfile, "LOG: Trocou para a aldeia %d", aldeia);
+	fflush(logfile);
+}
+
+void lerDorf1(int* stuff, int* idCampos, int print, FILE* logfile)
+{
+	automaticLogin(0,logfile);
 
 	char string[5];
 	char caracter;
@@ -152,8 +218,10 @@ void lerDorf1(int* stuff, int* idCampos, int print)
 	linha = copia = i = 0;
 	teste = 1;
 
-	system("wget -q --load-cookies=cookies.txt -O dorf1.html https://ts1.lusobrasileiro.travian.com/dorf1.php");
+	system("wget -q --load-cookies=cookies.txt -O dorf1.html \"https://ts1.lusobrasileiro.travian.com/dorf1.php\"");
 	ficheiro = fopen("dorf1.html","r+");
+	fprintf(logfile, "LOG: Dorf1.html descarregado para leitura.\n");
+	fflush(logfile);
 
    	while (teste)
    	{
@@ -241,6 +309,9 @@ void lerDorf1(int* stuff, int* idCampos, int print)
 		free(cam);
 	}
 
+	fprintf(logfile, "LOG: Leitura da dorf1 executada com sucesso.\n");
+	fflush(logfile);
+
 	if(print)
 	{
 		printf("----Produção:----\n\n");
@@ -287,6 +358,8 @@ void lerDorf1(int* stuff, int* idCampos, int print)
 
 
 		printf("\n---------------------------------\n\n");
+		fprintf(logfile, "LOG: Print da dorf1.\n");
+		fflush(logfile);
 	}
 	fclose(ficheiro);
 }

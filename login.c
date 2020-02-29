@@ -1,5 +1,3 @@
-#include <stdio.h>
-#include <stdlib.h>
 #include "headers.h"
 
 
@@ -23,7 +21,7 @@ void concat(char s1[], char s2[])
 	s1[i+j] = 0;
 }
 
-void automaticLogin(int x)
+void automaticLogin(int x, FILE * logfile)
 {
 
 	char user[20];
@@ -38,6 +36,8 @@ void automaticLogin(int x)
 	{
 		printf("1- Usar login existente\n2- Novo login\n");
 		scanf("%d", &menulogin);
+		fprintf(logfile, "LOG: Login vai ser feito pela primeira vez.\n");
+		fflush(logfile);
 	}
 
 	if(menulogin == 1)
@@ -51,7 +51,8 @@ void automaticLogin(int x)
 		fscanf(fileLogin,"%s\n", user);
 		fscanf(fileLogin,"%s\n", password);
 		fclose(fileLogin);
-
+		fprintf(logfile, "LOG: Login vai ser feito pelos dados guardados.\n");
+		fflush(logfile);
 	}
 	else
 	{
@@ -67,6 +68,8 @@ void automaticLogin(int x)
 		fprintf(fileLogin, "%s\n", user);
 		fprintf(fileLogin, "%s\n", password);
 
+		fprintf(logfile, "LOG: Criado outro login.\n");
+		fflush(logfile);
 		fclose(fileLogin);
 	}
 
@@ -75,4 +78,6 @@ void automaticLogin(int x)
 	concat(login, password);
 	concat(login, "' --delete-after https://ts1.lusobrasileiro.travian.com/login.php");
 	system(login);
+	fprintf(logfile, "LOG: Login feito ou atualizado.\n");
+	fflush(logfile);
 }

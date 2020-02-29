@@ -7,26 +7,29 @@ int main()
 	int idCampos[17];
 	char* s;
 	char sfd[10];
-	automaticLogin(1);
+	FILE * logfile;
+	logfile = fopen("log.txt","w");
+
+	automaticLogin(1,logfile);
 
 	while(menu != 8)
 	{
 		if(menu == 1)
-			lerDorf1(stuff, idCampos, 1);
+			lerDorf1(stuff, idCampos, 1, logfile);
 		if(menu == 2)
-			nivelar(stuff, idCampos, 0);
+			nivelar(stuff, idCampos, 0, 1, logfile);
 		if(menu == 3)
-			EvolId(stuff, idCampos, 0, 0, 0);
+			EvolId(stuff, idCampos, 0, 0, 0, 1, logfile);
 		if(menu == 4)
 			atakList(2);
 		if(menu == 5)
-			treinarTropas();
+			treinarTropas(0, 1, 0, 0, logfile);
 		if(menu == 6)
-		{
-			//teste();
-		}
+			createToDoList(logfile);
 		if(menu == 7)
-			inactivePlayers();
+			runList(stuff, idCampos, logfile);
+		if(menu == 10)
+			changeVillage(2, logfile);
 
 		printf("\n\n ----------------------- ");
 
@@ -35,10 +38,14 @@ int main()
 		printf("\n3 - Subir até nivel");
 		printf("\n4 - Ataque");
 		printf("\n5 - Treinar Tropas");
+		printf("\n6 - Create To-Do list");
+		printf("\n7 - Correr a lista");
 		printf("\n8 - Logout ");
 		printf("\nEscolha uma opcao: ");
 		scanf("%d",&menu);
 	}
+
+	fclose(logfile);
 
 	return 0;
 }

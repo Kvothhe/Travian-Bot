@@ -61,6 +61,7 @@ int minCampo(int* idCampos, int max)
             max = idCampos[i], indice = i;
     }
 
+    printf("Min: %d\n", indice);
     return indice;
 }
 
@@ -148,13 +149,13 @@ void evoluiCampo(int x, int* stuff, int* idCampos)
     }
 }
 
-int emConstr()
+int emConstr(FILE* logfile)
 {
     FILE* ficheiro;
     char c;
     int emCons = 0;
 
-    system("wget -q --load-cookies=cookies.txt -O dorf1.html https://ts2.lusobrasileiro.travian.com/dorf1.php");
+    // system("wget -q --load-cookies=cookies.txt -O dorf1.html https://ts2.lusobrasileiro.travian.com/dorf1.php");
     ficheiro = fopen("dorf1.html","r+");
     lookFor("Em construçã", ficheiro);
     fscanf(ficheiro, "%c", &c);
@@ -170,12 +171,17 @@ int emConstr()
     }
     fclose(ficheiro);
 
+    fprintf(logfile, "LOG: Está em construção nos próximos %d minutos\n", emCons/60);
+    fflush(logfile);
+
     return emCons;
 }
 
-void nivelar(int* stuff, int* idCampos, int modo)
+void nivelar(int* stuff, int* idCampos, int modo, int aldeia, FILE* logfile)
 {
     int valor, emCons;
+
+    changeVillage(aldeia, logfile);
 
     if(modo == 0)
     {   
@@ -196,9 +202,9 @@ void nivelar(int* stuff, int* idCampos, int modo)
     while(x != -1)
     {
         int random = rand() % 150;
-        lerDorf1(stuff, idCampos, 0);
+        lerDorf1(stuff, idCampos, 0,logfile);
         printf("Leu a Dorf1\n");
-        emCons = emConstr();
+        emCons = emConstr(logfile);
         printf("Está em construção nos próximos %d minutos\n", emCons/60);
 
         if(!emCons)
@@ -250,10 +256,12 @@ int nivelBuild(int id)
     return r;
 }
 
-void EvolId (int* stuff, int* idCampos, int modo, int bid, int bate)
+void EvolId (int* stuff, int* idCampos, int modo, int bid, int bate, int aldeia, FILE * logfile)
 { 
     int id,ate, start = 0;
     int emCons, x = 0;
+
+    changeVillage(aldeia, logfile);
 
     if(modo == 0)
     {
@@ -271,9 +279,9 @@ void EvolId (int* stuff, int* idCampos, int modo, int bid, int bate)
     while(x != ate)
     {
         int random = rand() % 120;
-        lerDorf1(stuff, idCampos, 0);
+        lerDorf1(stuff, idCampos, 0, logfile);
         printf("Leu a Dorf1\n");
-        emCons = emConstr();
+        emCons = emConstr(logfile);
         printf("Está em construção nos próximos %d minutos\n", emCons/60);
 
         if(!emCons)
@@ -321,15 +329,25 @@ void proZ(char* lin)
 }
 
 
-void treinarTropas()
+void treinarTropas(int modo, int aldeia ,int aa, int bb, FILE * logfile)
 {
     char in1[4], in2[4];
     int a, b;
 
-    printf("Falanges a treinar (MAX: 9999): \n");
-    scanf("%d", &a);
-    printf("Espadachins a treinar (MAX: 9999): \n");
-    scanf("%d", &b);
+    changeVillage(aldeia, logfile);
+
+    if(modo == 0)
+    {
+        printf("Falanges a treinar (MAX: 9999): \n");
+        scanf("%d", &a);
+        printf("Espadachins a treinar (MAX: 9999): \n");
+        scanf("%d", &b);
+    }
+    else 
+    {
+        a = aa;
+        b = bb;
+    }
     
     sprintf(in1,"%d", a);
     sprintf(in2,"%d", b);
@@ -518,4 +536,113 @@ void atakList(int lista)
     }
 
     fclose(file);
+}
+
+void addS(FILE * file, int option)
+{
+    int aldeia, ate, id, t1, t2;
+
+    if(option == 1)
+    {
+        printf("Aldeia:\n");
+        scanf("%d", &aldeia);
+        printf("Subir até:\n");
+        scanf("%d", &ate);
+
+        fprintf(file, "1 %d %d\n", aldeia, ate);
+    }
+    if(option == 2)
+    {
+        printf("Aldeia:\n");
+        scanf("%d", &aldeia);
+        printf("Id a evoluir:");
+        scanf("%d", &id);
+        printf("Até nivel:");
+        scanf("%d", &ate);
+
+        fprintf(file, "2 %d %d %d\n", aldeia, id, ate);
+    }
+    if(option == 3)
+        printf("Para mais tarde!\n");
+    if(option == 4)
+    {
+        printf("Aldeia:\n");
+        scanf("%d", &aldeia);
+        printf("Falanges:");
+        scanf("%d", &t1);
+        printf("Espadachins:");
+        scanf("%d", &t2);
+
+        fprintf(file, "4 %d %d %d\n", aldeia, t1, t2);
+    }
+}
+
+void createToDoList(FILE * logfile)
+{
+    int option = 0;
+    FILE * lista = fopen("todolist.txt","w");
+
+    while(option != 8)
+    {
+        if(option == 1)
+            addS(lista, option);
+       if(option == 2)
+            addS(lista, option);
+       if(option == 3)
+            addS(lista, option);
+       if(option == 4)
+            addS(lista, option);
+
+        printf("\n1 - Subir Campos até um certo nivel");
+	    printf("\n2 - Subir até nivel");
+	    printf("\n3 - Ataque");
+	    printf("\n4 - Treinar Tropas");
+        printf("\n8 - Sair do To do list\n");
+        scanf("%d", &option);
+    
+    }
+
+    fprintf(lista, "z");
+
+    printf("To Do list atualizada");
+    fprintf(logfile, "LOG: To Do list atualizada.");
+    fflush(logfile);
+    fclose(lista);
+}
+
+void runList(int* stuff, int *idCampos, FILE* logfile)
+{
+    FILE * lista = fopen("todolist.txt","r");
+    char c;
+    int aldeia, ate, id, t1, t2;
+
+    c = fgetc(lista);
+
+    while (c != 'z')
+    {
+        if(c == '1')
+        {
+            fscanf(lista, " %d %d\n", &aldeia, &ate);
+            nivelar(stuff,idCampos,ate,aldeia,logfile);
+           // printf("Aldeia: %d e Ate: %d\n", aldeia, ate);
+        }
+        
+        if(c == '2')
+        {
+            fscanf(lista, " %d %d %d\n", &aldeia, &id, &ate);
+            EvolId(stuff, idCampos, 1, id, ate, aldeia ,logfile);
+            printf("Aldeia: %d, ID: %d e Ate: %d\n", aldeia, id, ate);
+        }
+        
+        if(c == '4')
+        {
+            fscanf(lista, " %d %d %d\n", &aldeia, &t1, &t2);
+            treinarTropas(1, aldeia ,t1, t2, logfile);
+            printf("Aldeia: %d, t1: %d e t2: %d\n", aldeia, t1, t2);
+        }
+
+        c = fgetc(lista);
+    }
+    
+    fclose(lista);
 }
