@@ -63,13 +63,15 @@ void lookFor(char* string, FILE* file)
 	char c;
 	int i = 0;
 	int teste = 1;
+	int j = 0;
 
 	c = getc(file);
-	while(teste && c != EOF)
+	while(teste && c != EOF && j < 200000)
 	{
 		if(string[i] == c)
 			teste = 1 - eString(string,file,c);
 		c = getc(file);
+		j++;
 	}
 }
 
@@ -219,6 +221,7 @@ void changeVillage(int aldeia, FILE * logfile)
 //	printf("%s\n", syst);
 
 	system(syst);
+	fclose(villages);
 
 	fprintf(logfile, "LOG: Trocou para a aldeia %d", aldeia);
 	fflush(logfile);
@@ -249,6 +252,7 @@ void lerDorf1(int* stuff, int* idCampos, int print, FILE* logfile, char* array)
 		ficheirocURL = fopen("dorf1cURL.html","r+");
 		lookFor("return", ficheirocURL);
 		copyInfo(ficheirocURL, array);
+		fclose(ficheirocURL);
 	}
 
    	while (teste)

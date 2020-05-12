@@ -2,7 +2,7 @@
 
 void sendAd()
 {
-	system("wget -q --load-cookies=cookies.txt \"https://ts1.lusobrasileiro.travian.com/karte.php\"");
+	system("wget -q --load-cookies=cookies.txt \"https://ts1.lusobrasileiro.travian.com/karte.php\" --delete-after");
 	system("wget -q --load-cookies=cookies.txt -O hero.html \"https://ts1.lusobrasileiro.travian.com/hero.php?t=3\"");
 	FILE* ficheiro;
 	int kid;
@@ -20,7 +20,7 @@ void sendAd()
 
 	char ad[200] = "wget -q --load-cookies=cookies.txt \"https://ts1.lusobrasileiro.travian.com/start_adventure.php?send=1&kid=";
 	strcat(ad, kidchar);
-	strcat(ad, "&form=list&a=1\"");
+	strcat(ad, "&form=list&a=1\" --delete-after");
 
 	system(ad);
 }

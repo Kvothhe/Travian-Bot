@@ -163,7 +163,8 @@ int emConstr(FILE* logfile)
 
     // system("wget -q --load-cookies=cookies.txt -O dorf1.html https://ts2.lusobrasileiro.travian.com/dorf1.php");
     ficheiro = fopen("dorf1.html","r+");
-    lookFor("Em construçã", ficheiro);
+    lookFor("m constru", ficheiro);
+    skipChar(4,ficheiro);
     fscanf(ficheiro, "%c", &c);
     if(c == '<')
     {
