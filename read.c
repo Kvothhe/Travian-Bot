@@ -139,6 +139,25 @@ int recursoInfo(FILE* ficheiro)
    	return j;
 }
 
+void copyInfo(FILE* ficheiro, char* array)
+{
+	if(array)
+	{
+		char caracter;
+
+		fscanf(ficheiro,"%c", &caracter);
+   		int j = 0;
+   		while(caracter != 39)
+   		{
+   			array[j] = caracter;
+   			++j;
+   			fscanf(ficheiro,"%c", &caracter);
+   		}
+
+   		array[j] = 0;
+   	}
+}
+
 int searchVillage()
 {
 	FILE * file;
@@ -205,7 +224,7 @@ void changeVillage(int aldeia, FILE * logfile)
 	fflush(logfile);
 }
 
-void lerDorf1(int* stuff, int* idCampos, int print, FILE* logfile)
+void lerDorf1(int* stuff, int* idCampos, int print, FILE* logfile, char* array)
 {
 	automaticLogin(0,logfile);
 
@@ -222,6 +241,15 @@ void lerDorf1(int* stuff, int* idCampos, int print, FILE* logfile)
 	ficheiro = fopen("dorf1.html","r+");
 	fprintf(logfile, "LOG: Dorf1.html descarregado para leitura.\n");
 	fflush(logfile);
+
+	if(array)
+	{
+		FILE *ficheirocURL;
+		system("curl -k -s https://ts1.lusobrasileiro.travian.com/dorf1.php -b cookiescURL.txt --output dorf1cURL.html");
+		ficheirocURL = fopen("dorf1cURL.html","r+");
+		lookFor("return", ficheirocURL);
+		copyInfo(ficheirocURL, array);
+	}
 
    	while (teste)
    	{

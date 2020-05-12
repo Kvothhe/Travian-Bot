@@ -3,6 +3,7 @@
 #include <time.h>
 #include <unistd.h>
 #include <string.h>
+#include <curl/curl.h>
 
 void automaticLogin(int, FILE*);
 int linTam(char*);
@@ -19,8 +20,8 @@ int arrayToInt(int*, int);
 int recursoInfo(FILE*);
 int searchVillage();
 void changeVillage(int, FILE *);
-void lerDorf1(int*, int*, int, FILE*);
-void evoluiCampo(int, int*, int*);
+void lerDorf1(int*, int*, int, FILE*, char*);
+void evoluiCampo(int, int*, int*, FILE*);
 int tenhoRec(FILE*, int*);
 int minCampo(int*, int);
 void nivelar(int*, int*, int,int, FILE*);
@@ -39,3 +40,5 @@ void inactivePlayers();
 void addS(FILE *, int);
 void runList(int*, int *, FILE*);
 void createToDoList(FILE *);
+void quests(int*, int *, FILE*);
+void sendAd();

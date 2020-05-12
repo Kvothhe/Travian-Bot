@@ -92,13 +92,17 @@ void criarUrl(int x)
     system(sc);
 }
 
-void evoluiCampo(int x, int* stuff, int* idCampos)
+void evoluiCampo(int x, int* stuff, int* idCampos, FILE* logfile)
 {
     int j;
     char c[200];
     char sc[200] = "wget -q --load-cookies=cookies.txt -O dorf.html \"https://ts1.lusobrasileiro.travian.com/";
     char c2;
     int cond = 0;
+
+    sendAd();
+    quests(stuff, idCampos, logfile);
+    atakList(1);
 
     criarUrl(x);
 
@@ -147,6 +151,8 @@ void evoluiCampo(int x, int* stuff, int* idCampos)
         fclose(filedorf);
         printf("Sem Recursos para id=%d!\n", x);
     }
+    treinarTropas(1,1,1,0,logfile);
+
 }
 
 int emConstr(FILE* logfile)
@@ -202,7 +208,7 @@ void nivelar(int* stuff, int* idCampos, int modo, int aldeia, FILE* logfile)
     while(x != -1)
     {
         int random = rand() % 150;
-        lerDorf1(stuff, idCampos, 0,logfile);
+        lerDorf1(stuff, idCampos, 0,logfile, NULL);
         printf("Leu a Dorf1\n");
         emCons = emConstr(logfile);
         printf("Está em construção nos próximos %d minutos\n", emCons/60);
@@ -213,7 +219,7 @@ void nivelar(int* stuff, int* idCampos, int modo, int aldeia, FILE* logfile)
             if (x != -1)
             {
                 printf("Evoluir id: %d\n", x);
-                evoluiCampo(x, stuff, idCampos);
+                evoluiCampo(x, stuff, idCampos, logfile);
             }
         }
 
@@ -279,7 +285,7 @@ void EvolId (int* stuff, int* idCampos, int modo, int bid, int bate, int aldeia,
     while(x != ate)
     {
         int random = rand() % 120;
-        lerDorf1(stuff, idCampos, 0, logfile);
+        lerDorf1(stuff, idCampos, 0, logfile, NULL);
         printf("Leu a Dorf1\n");
         emCons = emConstr(logfile);
         printf("Está em construção nos próximos %d minutos\n", emCons/60);
@@ -288,7 +294,7 @@ void EvolId (int* stuff, int* idCampos, int modo, int bid, int bate, int aldeia,
         {
             x = nivelBuild(id);
             printf("Evoluir id: %d de nivel: %d\n", id, x);
-            evoluiCampo(id, stuff, idCampos);
+            evoluiCampo(id, stuff, idCampos, logfile);
         }
 
         printf("Iteração: %d\nRandom: %d\n", start, random);
@@ -415,7 +421,7 @@ void generateA1(int x, int y)
     fprintf(file, "%s", time);
     fprintf(file, "&timestamp_checksum=");
     fprintf(file, "%s", check);
-    fprintf(file, "&b=1&currentDid=16674&troops[0][t1]&troops[0][t4]&troops[0][t7]&troops[0][t9]&troops[0][t2]=5&troops[0][t5]&troops[0][t8]&troops[0][t10]&troops[0][t3]&troops[0][t6]&troops[0][t11]&dname&x=");
+    fprintf(file, "&b=1&currentDid=16674&troops[0][t1]=5&troops[0][t4]&troops[0][t7]&troops[0][t9]&troops[0][t2]&troops[0][t5]&troops[0][t8]&troops[0][t10]&troops[0][t3]&troops[0][t6]&troops[0][t11]&dname&x=");
     fprintf(file, "%s", cx);
     fprintf(file, "&y=");
     fprintf(file, "%s", cy);
@@ -486,7 +492,7 @@ void generateA2(int x, int y, char* chZ, int modo)
     fprintf(file, "%s", w);
     fprintf(file, "&c=4&kid=");
     fprintf(file, "%s", chZ);
-    fprintf(file, "&troops[0][t1]>=0&troops[0][t2]>=5&troops[0][t3]>=0&troops[0][t4]>=0&troops[0][t5]>=0&troops[0][t6]>=0&troops[0][t7]>=0&troops[0][t8]>=0&troops[0][t9]>=0&troops[0][t10]>=0&troops[0][t11]>=0&currentDid=16674&b=2&dname&x=");
+    fprintf(file, "&troops[0][t1]>=5&troops[0][t2]>=0&troops[0][t3]>=0&troops[0][t4]>=0&troops[0][t5]>=0&troops[0][t6]>=0&troops[0][t7]>=0&troops[0][t8]>=0&troops[0][t9]>=0&troops[0][t10]>=0&troops[0][t11]>=0&currentDid=16674&b=2&dname&x=");
     fprintf(file, "%s", cx);
     fprintf(file, "&y=");
     fprintf(file, "%s", cy);
@@ -568,7 +574,7 @@ void addS(FILE * file, int option)
     {
         printf("Aldeia:\n");
         scanf("%d", &aldeia);
-        printf("Falanges:");
+        printf("Falanges/Salteadores:");
         scanf("%d", &t1);
         printf("Espadachins:");
         scanf("%d", &t2);

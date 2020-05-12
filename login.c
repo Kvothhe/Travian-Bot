@@ -30,6 +30,7 @@ void automaticLogin(int x, FILE * logfile)
 
 	FILE* fileLogin;
 	char login[200] = "wget -q --save-cookies cookies.txt --keep-session-cookies --post-data 'name=";
+	char logincURL[200] = "curl -k -s https://ts1.lusobrasileiro.travian.com/login.php -c cookiescURL.txt -d \"name=";
 
 	//fopen("login.txt","r+");
 	if(x)
@@ -74,10 +75,17 @@ void automaticLogin(int x, FILE * logfile)
 	}
 
 	concat(login, user);
+	concat(logincURL, user);
 	concat(login,"&password=");
+	concat(logincURL,"&password=");
 	concat(login, password);
+	concat(logincURL, password);
+	concat(logincURL, "\"");
 	concat(login, "' --delete-after https://ts1.lusobrasileiro.travian.com/login.php");
+	//printf("%s\n", login);
+	//printf("%s\n", logincURL);
 	system(login);
+	system(logincURL);
 	fprintf(logfile, "LOG: Login feito ou atualizado.\n");
 	fflush(logfile);
 }
